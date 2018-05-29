@@ -81,20 +81,19 @@ layer {
     crop_bboxes: true
     object_class: { src: 1 dst: 0} # lego_or_2x2_plate -> 0
     object_class: { src: 2 dst: 1} # lego_or_2x1_plate -> 1
-    object_class: { src: 3 dst: 2} # lego_or_2x1_plate -> 2
-    object_class: { src: 4 dst: 3} # lego_or_2x1_plate -> 3
-    object_class: { src: 5 dst: 4} # lego_or_2x1_plate -> 4
-    object_class: { src: 6 dst: 5} # lego_or_2x1_plate -> 5
-    object_class: { src: 7 dst: 6} # lego_or_2x1_plate -> 6
-    object_class: { src: 8 dst: 7} # lego_or_2x1_plate -> 7
-    object_class: { src: 9 dst: 8} # lego_or_2x1_plate -> 8
-    object_class: { src: 10 dst: 9} # lego_or_2x1_plate -> 9
-    object_class: { src: 11 dst: 10} # lego_or_2x1_plate -> 10
-    object_class: { src: 12 dst: 11} # lego_or_2x1_plate -> 11
-    object_class: { src: 13 dst: 12} # lego_or_2x1_plate -> 12
-    object_class: { src: 14 dst: 13} # lego_or_2x1_plate -> 13
-    object_class: { src: 15 dst: 14} # lego_or_2x1_plate -> 14
-    object_class: { src: 16 dst: 15} # lego_or_2x1_plate -> 15    
+    object_class: { src: 3 dst: 2} # lego_bk_1x1_plate -> 2
+    object_class: { src: 4 dst: 3} # lego_or_d1_lens -> 3
+    object_class: { src: 5 dst: 4} # lego_or_1x4_scallop -> 4
+    object_class: { src: 6 dst: 5} # lego_bk_1x6_plate -> 5
+    object_class: { src: 7 dst: 6} # lego_gn_d1_lens -> 6
+    object_class: { src: 8 dst: 7} # lego_1x12_wt_plate -> 7
+    object_class: { src: 9 dst: 8} # lego_cl_d2_lens -> 8
+    object_class: { src: 10 dst: 9} # lego_gy_r3_qtr-cir-plate -> 9
+    object_class: { src: 11 dst: 10} # lego_gy_4x2_isotrap -> 10
+    object_class: { src: 12 dst: 11} # lego_wt_2x6_plate -> 11
+    object_class: { src: 13 dst: 12} # lego_gy_2x2_block-axle -> 12
+    object_class: { src: 14 dst: 13} # lego_figure_pilot -> 13
+    object_class: { src: 15 dst: 14} # lego_or_2x1_plate -> 14    
   }
    detectnet_augmentation_param: {
     crop_prob: 1
@@ -2399,7 +2398,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 16
+    num_output: 15
     kernel_size: 1
     weight_filler {
       type: "xavier"
@@ -2529,11 +2528,10 @@ layer {
     top: 'bbox-list-class12'
     top: 'bbox-list-class13'
     top: 'bbox-list-class14'
-    top: 'bbox-list-class15'
     python_param {
         module: 'caffe.layers.detectnet.clustering'
         layer: 'ClusterDetections'
-        param_str : '1248, 352, 16, 0.6, 3, 0.02, 22, 16'
+        param_str : '1248, 352, 16, 0.6, 3, 0.02, 22, 15'
     }
     include: { phase: TEST }
 }
@@ -2559,11 +2557,10 @@ layer {
   top: 'bbox-list-label-class12'
   top: 'bbox-list-label-class13'
   top: 'bbox-list-label-class14'
-  top: 'bbox-list-label-class15'
   python_param {
       module: 'caffe.layers.detectnet.clustering'
       layer: 'ClusterGroundtruth'
-      param_str : '1248, 352, 16, 16'
+      param_str : '1248, 352, 16, 15'
   }
   include: { phase: TEST stage: "val" }
 }
@@ -2964,33 +2961,6 @@ layer {
     top: 'mAP-class14'
     top: 'precision-class14'
     top: 'recall-class14'
-    python_param {
-        module: 'caffe.layers.detectnet.mean_ap'
-        layer: 'mAP'
-        param_str : '1248, 352, 16'
-    }
-    include: { phase: TEST stage: "val" }
-}
-
-layer {
-    type: 'Python'
-    name: 'score-class15'
-    bottom: 'bbox-list-label-class15'
-    bottom: 'bbox-list-class15'
-    top: 'bbox-list-scored-class15'
-    python_param {
-        module: 'caffe.layers.detectnet.mean_ap'
-        layer: 'ScoreDetections'
-    }
-    include: { phase: TEST stage: "val" }
-}
-layer {
-    type: 'Python'
-    name: 'mAP-class15'
-    bottom: 'bbox-list-scored-class15'
-    top: 'mAP-class15'
-    top: 'precision-class15'
-    top: 'recall-class15'
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
