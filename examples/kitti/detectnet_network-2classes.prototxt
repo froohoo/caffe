@@ -132,8 +132,21 @@ layer {
     image_size_x: 1344
     image_size_y: 1024
     crop_bboxes: false
-    object_class: { src: 1 dst: 0} # cars -> 0
-    object_class: { src: 8 dst: 1} # pedestrians -> 1
+    object_class: { src: 1 dst: 0} # lego_or_2x2_plate -> 0
+    object_class: { src: 2 dst: 1} # lego_or_2x1_plate -> 1
+    object_class: { src: 3 dst: 2} # lego_bk_1x1_plate -> 2
+    object_class: { src: 4 dst: 3} # lego_or_d1_lens -> 3
+    object_class: { src: 5 dst: 4} # lego_or_1x4_scallop -> 4
+    object_class: { src: 6 dst: 5} # lego_bk_1x6_plate -> 5
+    object_class: { src: 7 dst: 6} # lego_gn_d1_lens -> 6
+    object_class: { src: 8 dst: 7} # lego_1x12_wt_plate -> 7
+    object_class: { src: 9 dst: 8} # lego_cl_d2_lens -> 8
+    object_class: { src: 10 dst: 9} # lego_gy_r3_qtr-cir-plate -> 9
+    object_class: { src: 11 dst: 10} # lego_gy_4x2_isotrap -> 10
+    object_class: { src: 12 dst: 11} # lego_wt_2x6_plate -> 11
+    object_class: { src: 13 dst: 12} # lego_gy_2x2_block-axle -> 12
+    object_class: { src: 14 dst: 13} # lego_figure_pilot -> 13
+    object_class: { src: 15 dst: 14} # lego_or_2x1_plate -> 14 
   }
   transform_param: {
     mean_value: 127
