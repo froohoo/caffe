@@ -5,7 +5,7 @@ name: "DetectNet"
 layer {
   name: "train_data"
   type: "Data"
-  top: "data"
+  top: "data"2
   data_param {
     backend: LMDB
     source: "examples/kitti/kitti_train_images.lmdb"
@@ -54,8 +54,8 @@ layer {
     shape {
       dim: 1
       dim: 3
-      dim: 384
-      dim: 1248
+      dim: 1024
+      dim: 1344
     }
   }
   include: { phase: TEST not_stage: "val" }
@@ -76,8 +76,8 @@ layer {
     coverage_type: RECTANGULAR
     min_cvg_len: 20
     obj_norm: true
-    image_size_x: 1248
-    image_size_y: 384
+    image_size_x: 1344
+    image_size_y: 1024
     crop_bboxes: true
     object_class: { src: 1 dst: 0} # lego_or_2x2_plate -> 0
     object_class: { src: 2 dst: 1} # lego_or_2x1_plate -> 1
@@ -129,8 +129,8 @@ layer {
     coverage_type: RECTANGULAR
     min_cvg_len: 20
     obj_norm: true
-    image_size_x: 1248
-    image_size_y: 384
+    image_size_x: 1344
+    image_size_y: 1024
     crop_bboxes: false
     object_class: { src: 1 dst: 0} # cars -> 0
     object_class: { src: 8 dst: 1} # pedestrians -> 1
@@ -2531,7 +2531,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.clustering'
         layer: 'ClusterDetections'
-        param_str : '1248, 352, 16, 0.6, 3, 0.02, 22, 15'
+        param_str : '1344, 1024, 16, 0.6, 3, 0.02, 22, 15'
     }
     include: { phase: TEST }
 }
@@ -2560,7 +2560,7 @@ layer {
   python_param {
       module: 'caffe.layers.detectnet.clustering'
       layer: 'ClusterGroundtruth'
-      param_str : '1248, 352, 16, 15'
+      param_str : '1344, 1024, 16, 15'
   }
   include: { phase: TEST stage: "val" }
 }
@@ -2586,7 +2586,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2613,7 +2613,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2640,7 +2640,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2667,7 +2667,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2694,7 +2694,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2721,7 +2721,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2748,7 +2748,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2775,7 +2775,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2802,7 +2802,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2829,7 +2829,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2856,7 +2856,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2883,7 +2883,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2910,7 +2910,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2937,7 +2937,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
@@ -2964,7 +2964,7 @@ layer {
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
-        param_str : '1248, 352, 16'
+        param_str : '1344, 1024, 16'
     }
     include: { phase: TEST stage: "val" }
 }
