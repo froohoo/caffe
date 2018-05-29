@@ -2516,7 +2516,6 @@ layer {
     top: 'bbox-list-class1'
     top: 'bbox-list-class2'
     top: 'bbox-list-class3'
-    top: 'bbox-list-class3'
     top: 'bbox-list-class4'
     top: 'bbox-list-class5'
     top: 'bbox-list-class6'
