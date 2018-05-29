@@ -5,7 +5,7 @@ name: "DetectNet"
 layer {
   name: "train_data"
   type: "Data"
-  top: "data"2
+  top: "data"
   data_param {
     backend: LMDB
     source: "examples/kitti/kitti_train_images.lmdb"
