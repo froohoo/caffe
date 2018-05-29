@@ -79,8 +79,22 @@ layer {
     image_size_x: 1248
     image_size_y: 384
     crop_bboxes: true
-    object_class: { src: 1 dst: 0} # cars -> 0
-    object_class: { src: 8 dst: 1} # pedestrians -> 1
+    object_class: { src: 1 dst: 0} # lego_or_2x2_plate -> 0
+    object_class: { src: 2 dst: 1} # lego_or_2x1_plate -> 1
+    object_class: { src: 3 dst: 2} # lego_or_2x1_plate -> 2
+    object_class: { src: 4 dst: 3} # lego_or_2x1_plate -> 3
+    object_class: { src: 5 dst: 4} # lego_or_2x1_plate -> 4
+    object_class: { src: 6 dst: 5} # lego_or_2x1_plate -> 5
+    object_class: { src: 7 dst: 6} # lego_or_2x1_plate -> 6
+    object_class: { src: 8 dst: 7} # lego_or_2x1_plate -> 7
+    object_class: { src: 9 dst: 8} # lego_or_2x1_plate -> 8
+    object_class: { src: 10 dst: 9} # lego_or_2x1_plate -> 9
+    object_class: { src: 11 dst: 10} # lego_or_2x1_plate -> 10
+    object_class: { src: 12 dst: 11} # lego_or_2x1_plate -> 11
+    object_class: { src: 13 dst: 12} # lego_or_2x1_plate -> 12
+    object_class: { src: 14 dst: 13} # lego_or_2x1_plate -> 13
+    object_class: { src: 15 dst: 14} # lego_or_2x1_plate -> 14
+    object_class: { src: 16 dst: 15} # lego_or_2x1_plate -> 15    
   }
    detectnet_augmentation_param: {
     crop_prob: 1
@@ -2385,7 +2399,7 @@ layer {
     decay_mult: 0
   }
   convolution_param {
-    num_output: 2
+    num_output: 16
     kernel_size: 1
     weight_filler {
       type: "xavier"
@@ -2501,10 +2515,25 @@ layer {
     bottom: 'bboxes'
     top: 'bbox-list-class0'
     top: 'bbox-list-class1'
+    top: 'bbox-list-class2'
+    top: 'bbox-list-class3'
+    top: 'bbox-list-class3'
+    top: 'bbox-list-class4'
+    top: 'bbox-list-class5'
+    top: 'bbox-list-class6'
+    top: 'bbox-list-class7'
+    top: 'bbox-list-class8'
+    top: 'bbox-list-class9'
+    top: 'bbox-list-class10'
+    top: 'bbox-list-class11'
+    top: 'bbox-list-class12'
+    top: 'bbox-list-class13'
+    top: 'bbox-list-class14'
+    top: 'bbox-list-class15'
     python_param {
         module: 'caffe.layers.detectnet.clustering'
         layer: 'ClusterDetections'
-        param_str : '1248, 352, 16, 0.6, 3, 0.02, 22, 2'
+        param_str : '1248, 352, 16, 0.6, 3, 0.02, 22, 16'
     }
     include: { phase: TEST }
 }
@@ -2517,10 +2546,24 @@ layer {
   bottom: 'bbox-label'
   top: 'bbox-list-label-class0'
   top: 'bbox-list-label-class1'
+  top: 'bbox-list-label-class2'
+  top: 'bbox-list-label-class3'
+  top: 'bbox-list-label-class4'
+  top: 'bbox-list-label-class5'
+  top: 'bbox-list-label-class6'
+  top: 'bbox-list-label-class7'
+  top: 'bbox-list-label-class8'
+  top: 'bbox-list-label-class9'
+  top: 'bbox-list-label-class10'
+  top: 'bbox-list-label-class11'
+  top: 'bbox-list-label-class12'
+  top: 'bbox-list-label-class13'
+  top: 'bbox-list-label-class14'
+  top: 'bbox-list-label-class15'
   python_param {
       module: 'caffe.layers.detectnet.clustering'
       layer: 'ClusterGroundtruth'
-      param_str : '1248, 352, 16, 2'
+      param_str : '1248, 352, 16, 16'
   }
   include: { phase: TEST stage: "val" }
 }
@@ -2570,6 +2613,384 @@ layer {
     top: 'mAP-class1'
     top: 'precision-class1'
     top: 'recall-class1'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class2'
+    bottom: 'bbox-list-label-class2'
+    bottom: 'bbox-list-class2'
+    top: 'bbox-list-scored-class2'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class2'
+    bottom: 'bbox-list-scored-class2'
+    top: 'mAP-class2'
+    top: 'precision-class2'
+    top: 'recall-class2'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class3'
+    bottom: 'bbox-list-label-class3'
+    bottom: 'bbox-list-class3'
+    top: 'bbox-list-scored-class3'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class3'
+    bottom: 'bbox-list-scored-class3'
+    top: 'mAP-class3'
+    top: 'precision-class3'
+    top: 'recall-class3'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class4'
+    bottom: 'bbox-list-label-class4'
+    bottom: 'bbox-list-class4'
+    top: 'bbox-list-scored-class4'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class4'
+    bottom: 'bbox-list-scored-class4'
+    top: 'mAP-class4'
+    top: 'precision-class4'
+    top: 'recall-class4'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class5'
+    bottom: 'bbox-list-label-class5'
+    bottom: 'bbox-list-class5'
+    top: 'bbox-list-scored-class5'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class5'
+    bottom: 'bbox-list-scored-class5'
+    top: 'mAP-class5'
+    top: 'precision-class5'
+    top: 'recall-class5'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class6'
+    bottom: 'bbox-list-label-class6'
+    bottom: 'bbox-list-class6'
+    top: 'bbox-list-scored-class6'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class6'
+    bottom: 'bbox-list-scored-class6'
+    top: 'mAP-class6'
+    top: 'precision-class6'
+    top: 'recall-class6'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class7'
+    bottom: 'bbox-list-label-class7'
+    bottom: 'bbox-list-class7'
+    top: 'bbox-list-scored-class7'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class7'
+    bottom: 'bbox-list-scored-class7'
+    top: 'mAP-class7'
+    top: 'precision-class7'
+    top: 'recall-class7'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class8'
+    bottom: 'bbox-list-label-class8'
+    bottom: 'bbox-list-class8'
+    top: 'bbox-list-scored-class8'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class8'
+    bottom: 'bbox-list-scored-class8'
+    top: 'mAP-class8'
+    top: 'precision-class8'
+    top: 'recall-class8'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class9'
+    bottom: 'bbox-list-label-class9'
+    bottom: 'bbox-list-class9'
+    top: 'bbox-list-scored-class9'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class9'
+    bottom: 'bbox-list-scored-class9'
+    top: 'mAP-class9'
+    top: 'precision-class9'
+    top: 'recall-class9'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class10'
+    bottom: 'bbox-list-label-class10'
+    bottom: 'bbox-list-class10'
+    top: 'bbox-list-scored-class10'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class10'
+    bottom: 'bbox-list-scored-class10'
+    top: 'mAP-class10'
+    top: 'precision-class10'
+    top: 'recall-class10'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class11'
+    bottom: 'bbox-list-label-class11'
+    bottom: 'bbox-list-class11'
+    top: 'bbox-list-scored-class11'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class11'
+    bottom: 'bbox-list-scored-class11'
+    top: 'mAP-class11'
+    top: 'precision-class11'
+    top: 'recall-class11'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class12'
+    bottom: 'bbox-list-label-class12'
+    bottom: 'bbox-list-class12'
+    top: 'bbox-list-scored-class12'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class12'
+    bottom: 'bbox-list-scored-class12'
+    top: 'mAP-class12'
+    top: 'precision-class12'
+    top: 'recall-class12'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class13'
+    bottom: 'bbox-list-label-class13'
+    bottom: 'bbox-list-class13'
+    top: 'bbox-list-scored-class13'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class13'
+    bottom: 'bbox-list-scored-class13'
+    top: 'mAP-class13'
+    top: 'precision-class13'
+    top: 'recall-class13'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class14'
+    bottom: 'bbox-list-label-class14'
+    bottom: 'bbox-list-class14'
+    top: 'bbox-list-scored-class14'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class14'
+    bottom: 'bbox-list-scored-class14'
+    top: 'mAP-class14'
+    top: 'precision-class14'
+    top: 'recall-class14'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'mAP'
+        param_str : '1248, 352, 16'
+    }
+    include: { phase: TEST stage: "val" }
+}
+
+layer {
+    type: 'Python'
+    name: 'score-class15'
+    bottom: 'bbox-list-label-class15'
+    bottom: 'bbox-list-class15'
+    top: 'bbox-list-scored-class15'
+    python_param {
+        module: 'caffe.layers.detectnet.mean_ap'
+        layer: 'ScoreDetections'
+    }
+    include: { phase: TEST stage: "val" }
+}
+layer {
+    type: 'Python'
+    name: 'mAP-class15'
+    bottom: 'bbox-list-scored-class15'
+    top: 'mAP-class15'
+    top: 'precision-class15'
+    top: 'recall-class15'
     python_param {
         module: 'caffe.layers.detectnet.mean_ap'
         layer: 'mAP'
